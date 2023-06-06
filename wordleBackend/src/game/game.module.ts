@@ -1,14 +1,11 @@
 import { Module } from '@nestjs/common';
 import { GameController } from './game.controller';
 import { GameService } from './game.service';
-import { MongooseModule } from '@nestjs/mongoose';
-import { Wordle, WordleSchema } from 'src/schemas/wordle.schema';
+import { WordModule } from 'src/word/word.module';
 
 @Module({
-  imports: [
-    MongooseModule.forFeature([{ name: Wordle.name, schema: WordleSchema }]),
-  ],
+  imports: [WordModule],
   controllers: [GameController],
   providers: [GameService]
 })
-export class GameModule {}
+export class GameModule { }

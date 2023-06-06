@@ -4,12 +4,4 @@ export class CreateWordleDto {
     @IsString()
     @IsNotEmpty()
     word: string;
-
-    @IsNumber()
-    @IsOptional()
-    attempts?: number;
-
-    @IsBoolean()
-    @IsOptional()
-    done?: boolean
 }

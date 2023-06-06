@@ -1,29 +1,42 @@
 import { Injectable } from '@nestjs/common';
-import { InjectModel } from '@nestjs/mongoose';
-import { Model } from 'mongoose';
-import { CreateWordleDto } from 'src/dto/create-wordle.dto';
-import { Wordle } from 'src/schemas/wordle.schema';
+import { requestWord } from 'src/dto/requestWord.dto';
+import { responseWord } from 'src/dto/responseWord.dto';
+import { WordService } from 'src/word/word.service';
 
 @Injectable()
 export class GameService {
-    constructor(@InjectModel(Wordle.name) private wordleModel: Model<Wordle>) { }
+    constructor(
+        private wordService: WordService
+    ) { }
 
-    findAll() {
-        return this.wordleModel.find()
-    }
+    async requestWord(consult: requestWord): Promise<responseWord> {
+        const wordToGuess = await this.wordService.findOne(consult.wordId);
+        const arr = [...consult.updatedWord.split('')]
+        const wordToGuessArr = [...wordToGuess.word]
+        /** STATUS
+         * 0 if it's not in the word
+         * 1 if it's in the correct position
+         * 2 if it's not in the correct position
+         */
+        let letters = [], gameStatus = true
+        for (let i = 0; i < arr.length; i++) {
+            const letter = {
+                letter: arr[i],
+                status: wordToGuessArr[i] === arr[i]
+                    ? 1
+                    : wordToGuessArr.includes(arr[i])
+                        ? 2
+                        : 0
+            }
+            gameStatus = letter.status !== 0 && letter.status !== 2
+            letters.push(letter)
+        }
 
-    findRandomeOne() {
-        return this.wordleModel.aggregate([
-            { $sample: { size: 1 } }
-        ])
-    }
-
-    async create(createWord: CreateWordleDto) {
-        const newWord = new this.wordleModel(createWord);
-        return await newWord.save();
-    }
-
-    async delete(id: string) {
-        return this.wordleModel.findByIdAndDelete(id);
+        return {
+            wordId: consult.wordId,
+            letters,
+            attempts: consult.attempts,
+            done: gameStatus
+        }
     }
 }
