@@ -1,22 +1,28 @@
-import { IsBoolean, IsNotEmpty, IsNumber, IsOptional, IsString } from "class-validator";
+import {
+  IsBoolean,
+  IsNotEmpty,
+  IsNumber,
+  IsOptional,
+  IsString,
+} from 'class-validator';
 
 export class responseWord {
-    @IsString()
-    @IsNotEmpty()
-    wordId: string
-    
-    letters: letterStatus[]
+  @IsString()
+  @IsNotEmpty()
+  wordId: string;
 
-    @IsNumber()
-    @IsOptional()
-    attempts: number;
+  letters: letterStatus[];
 
-    @IsBoolean()
-    @IsOptional()
-    done: boolean
+  @IsNumber()
+  @IsOptional()
+  attempts: number;
+
+  @IsBoolean()
+  @IsOptional()
+  done: boolean;
 }
 
 interface letterStatus {
-    letter: string,
-    status: number
+  letter: string;
+  status: number;
 }

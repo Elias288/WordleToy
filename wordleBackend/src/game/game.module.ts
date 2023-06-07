@@ -6,6 +6,6 @@ import { WordModule } from 'src/word/word.module';
 @Module({
   imports: [WordModule],
   controllers: [GameController],
-  providers: [GameService]
+  providers: [GameService],
 })
-export class GameModule { }
+export class GameModule {}

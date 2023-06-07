@@ -6,10 +6,10 @@ import { Word, WordSchema } from 'src/schemas/wordle.schema';
 
 @Module({
   imports: [
-    MongooseModule.forFeature([{ name: Word.name, schema: WordSchema }])
+    MongooseModule.forFeature([{ name: Word.name, schema: WordSchema }]),
   ],
   providers: [WordService],
   controllers: [WordController],
-  exports: [WordService]
+  exports: [WordService],
 })
-export class WordModule { }
+export class WordModule {}

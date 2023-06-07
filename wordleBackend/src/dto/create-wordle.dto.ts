@@ -1,7 +1,8 @@
-import { IsBoolean, IsNotEmpty, IsNumber, IsOptional, IsString } from "class-validator";
+import { IsLowercase, IsNotEmpty, IsString } from 'class-validator';
 
 export class CreateWordleDto {
-    @IsString()
-    @IsNotEmpty()
-    word: string;
+  @IsString()
+  @IsNotEmpty()
+  @IsLowercase()
+  word: string;
 }
