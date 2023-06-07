@@ -12,4 +12,8 @@ export class requestWord {
   @IsNotEmpty()
   @IsNumber()
   attempts: number;
+
+  @IsNotEmpty()
+  @IsNumber()
+  attemptsCount: number;
 }

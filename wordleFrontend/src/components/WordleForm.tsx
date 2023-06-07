@@ -3,7 +3,8 @@ import useWord from "../context/useWord"
 
 function WordleForm() {
     const { resp, word, requestWord, restart } = useWord()
-    const [attempts, setattempts] = useState<number>(0)
+    const [attempts, setattempts] = useState<number>(4)
+    const [attemptsCount, setattemptsCount] = useState<number>(0)
     const [updatedWord, setUpdatedWord] = useState({
         input1: '',
         input2: '',
@@ -18,16 +19,20 @@ function WordleForm() {
     const ref5 = useRef<HTMLInputElement>(null);
 
     const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-        setUpdatedWord({ ...updatedWord, [e.target.name]: e.target.value })
+        const result = e.target.value.replace(/[^a-z]/gi, '');
+        setUpdatedWord({ ...updatedWord, [e.target.name]: result })
 
-        if (updatedWord.input1 === '')
-            e.target.name === 'input1' && ref2.current != null && (ref2.current as HTMLInputElement).focus()
-        if (updatedWord.input2 === '')
-            e.target.name === 'input2' && ref3.current != null && (ref3.current as HTMLInputElement).focus()
-        if (updatedWord.input3 === '')
-            e.target.name === 'input3' && ref4.current != null && (ref4.current as HTMLInputElement).focus()
-        if (updatedWord.input4 === '')
-            e.target.name === 'input4' && ref5.current != null && (ref5.current as HTMLInputElement).focus()
+        if (result != '') {
+            e.target.select();
+            if (updatedWord.input1 === '')
+                e.target.name === 'input1' && ref2.current != null && (ref2.current as HTMLInputElement).focus()
+            if (updatedWord.input2 === '')
+                e.target.name === 'input2' && ref3.current != null && (ref3.current as HTMLInputElement).focus()
+            if (updatedWord.input3 === '')
+                e.target.name === 'input3' && ref4.current != null && (ref4.current as HTMLInputElement).focus()
+            if (updatedWord.input4 === '')
+                e.target.name === 'input4' && ref5.current != null && (ref5.current as HTMLInputElement).focus()
+        }
     }
 
     const changeFocus = (e: React.FocusEvent<HTMLInputElement> & React.KeyboardEvent<HTMLInputElement>) => {
@@ -42,14 +47,16 @@ function WordleForm() {
 
     const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault()
-        setattempts(attempts + 1)
+        setattempts(attempts - 1)
+        setattemptsCount(attemptsCount + 1)
         if (updatedWord.input1 !== '' && updatedWord.input2 !== '' && updatedWord.input3 !== '' && updatedWord.input4 !== '' && updatedWord.input5 !== '') {
             const sendUpdatedWord = `${updatedWord.input1}${updatedWord.input2}${updatedWord.input3}${updatedWord.input4}${updatedWord.input5}`
 
             requestWord({
                 wordId: word.wordId,
                 updatedWord: sendUpdatedWord,
-                attempts
+                attempts,
+                attemptsCount
             })
 
             setUpdatedWord({
@@ -71,7 +78,8 @@ function WordleForm() {
             input4: '',
             input5: '',
         })
-        setattempts(0)
+        setattempts(5)
+        setattemptsCount(0)
         restart()
     }
 
@@ -82,7 +90,7 @@ function WordleForm() {
 
                     <form onSubmit={handleSubmit} >
                         <div
-                            className="inline-flex w-full text-white bg-zinc-700 px-1 pt-1 justify-center box-border gap-x-1"
+                            className="inline-flex w-full text-white bg-zinc-700 justify-center box-border gap-x-1"
                         >
                             <input
                                 type="text"
@@ -140,7 +148,6 @@ function WordleForm() {
                     </form>
                 ) : (
                     <>
-                        <p>Intentos: {resp[resp.length - 1].attempts}</p>
                         <button
                             className="bg-blue-500 p-2 text-white rounded-md hover:bg-blue-700"
                             onClick={restartAll}
@@ -150,9 +157,6 @@ function WordleForm() {
                     </>
                 )
             }
-
-
-
         </>
 
     );

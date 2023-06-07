@@ -8,29 +8,32 @@ function Wordle() {
     return (
         <div className="p-4 w-[500px]">
             <h1
-            className="w-full font-bold text-2xl text-center pb-4">
+                className="w-full font-bold text-2xl text-center pb-4">
                 Wordle Toy
             </h1>
-            {
-                resp.map((words, index) => {
-                    return (
-                        <div key={index} className="inline-flex w-full  text-white bg-zinc-700 px-1 pt-1 justify-center box-border gap-x-1">
-                            {
-                                words.letters.map((letter, index) => {
-                                    return (
-                                        <WordleItem
-                                            word={letter}
-                                            key={index}
-                                        />
-                                    )
-                                })
-                            }
-                        </div>
-                    )
-                })
-            }
+            <div className="p-2 bg-zinc-700">
+                {
+                    resp.map((words, index) => {
+                        return (
+                            <div key={index} className="inline-flex w-full pb-1 text-white justify-center box-border gap-x-1">
+                                {
+                                    words.letters.map((letter, index) => {
+                                        return (
+                                            <WordleItem
+                                                word={letter}
+                                                key={index}
+                                            />
+                                        )
+                                    })
+                                }
+                            </div>
+                        )
+                    })
+                }
 
-            <WordleForm />
+                <WordleForm />
+                <p className="text-white">Intentos: {resp.length === 0 ? 0 : resp[resp.length - 1].attemptsCount + 1} de 5</p>
+            </div>
         </div>
     );
 }

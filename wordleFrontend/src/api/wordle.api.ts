@@ -1,10 +1,10 @@
-import { RandomWord } from "../intefaces/word.inteface"
+import { SendWord } from "../intefaces/word.inteface"
 
 const API = 'http://localhost:3000/api'
 
 export const getRandomWordRequest = () => fetch(`${API}/word/random`)
 
-export const postWordRequest = (updatedWord: RandomWord) =>
+export const postWordRequest = (updatedWord: SendWord) =>
     fetch(`${API}/game/requestWord`, {
         method: 'POST',
         body: JSON.stringify(updatedWord),

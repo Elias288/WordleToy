@@ -17,6 +17,10 @@ export class responseWord {
   @IsOptional()
   attempts: number;
 
+  @IsNumber()
+  @IsOptional()
+  attemptsCount: number;
+
   @IsBoolean()
   @IsOptional()
   done: boolean;

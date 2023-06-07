@@ -28,18 +28,18 @@ export class GameService {
             ? 2
             : 0,
       };
-      // gameStatus = letter.status !== 0 && letter.status !== 2
       letters.push(letter);
     }
 
-    gameStatus = !letters.some(
-      (letter) => letter.status === 0 || letter.status === 2,
-    );
+    gameStatus =
+      !letters.some((letter) => letter.status === 0 || letter.status === 2) ||
+      consult.attempts === 0;
 
     return {
       wordId: consult.wordId,
       letters,
       attempts: consult.attempts,
+      attemptsCount: consult.attemptsCount,
       done: gameStatus,
     };
   }

@@ -2,6 +2,7 @@ export interface Word {
     wordId: string;
     updatedWord: string;
     attempts: number;
+    attemptsCount: number;
     letters: Array<Letter>;
     done: boolean;
 }
@@ -12,4 +13,4 @@ export interface Letter {
 }
 
 export type SendWord = Omit<Word, 'letters' | 'done' >
-export type RandomWord =  Omit<Word, 'updatedWord' | 'letters' | 'done' | 'attempts' >
+export type RandomWord =  Omit<Word, 'updatedWord' | 'letters' | 'done' | 'attempts' | 'attemptsCount' >
