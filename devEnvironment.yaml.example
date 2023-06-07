@@ -1,0 +1,38 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  creationTimestamp: "2023-05-31T13:44:16Z"
+  labels:
+    app: wordle-pod
+  name: wordle-pod
+spec:
+  containers:
+  - name: backend
+    image: localhost/fedoradevnestjsimg:latest
+    stdin: true
+    tty: true
+    ports:
+      - containerPort: 3000
+        hostPort: 3000
+    volumeMounts:
+    - mountPath: /usr/src/app
+      name: fedoraVolume
+  - name: mongoDB
+    image: mongo
+    ports: 
+      - containerPort: 27017
+        hostPort: 27017
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME: root
+      - MONGO_INITDB_ROOT_PASSWORD: 123456
+    volumeMounts:
+    - mountPath: /data/db
+      name: wordleMongoDb
+  volumes:
+  - name: fedoraVolume
+    hostPath:
+      path: /mnt/c/.../WordleGame/wordleBackend
+      type: Directory
+  - name: wordleMongoDb
+    persistentVolumeClaim:
+        claimName: wordleMongoDb_-_db-volume
