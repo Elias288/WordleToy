@@ -19,7 +19,7 @@ function WordleForm() {
     const ref5 = useRef<HTMLInputElement>(null);
 
     const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-        const result = e.target.value.replace(/[^a-z]/gi, '');
+        const result = e.target.value.replace(/[^abcdefghijklmnñopqrstuvwxyz]/gi, '');
         setUpdatedWord({ ...updatedWord, [e.target.name]: result })
 
         if (result != '') {
@@ -71,6 +71,8 @@ function WordleForm() {
     }
 
     const restartAll = () => {
+        setattempts(5)
+        setattemptsCount(0)
         setUpdatedWord({
             input1: '',
             input2: '',
@@ -78,8 +80,6 @@ function WordleForm() {
             input4: '',
             input5: '',
         })
-        setattempts(5)
-        setattemptsCount(0)
         restart()
     }
 
