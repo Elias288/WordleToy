@@ -11,6 +11,8 @@ import {
 } from '@nestjs/common';
 import { WordService } from './word.service';
 import { CreateWordleDto } from 'src/dto/create-wordle.dto';
+import { requestWord } from 'src/dto/requestWord.dto';
+import { responseWord } from 'src/dto/responseWord.dto';
 
 @Controller('word')
 export class WordController {
@@ -44,5 +46,10 @@ export class WordController {
     const wordle = await this.wordService.delete(id);
     if (!wordle) throw new NotFoundException('Word not found');
     return wordle;
+  }
+
+  @Post('requestWord')
+  async submitWord(@Body() body: requestWord): Promise<responseWord> {
+    return await this.wordService.requestWord(body);
   }
 }

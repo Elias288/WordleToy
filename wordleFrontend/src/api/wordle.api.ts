@@ -5,7 +5,7 @@ const API = 'http://localhost:3000/api'
 export const getRandomWordRequest = () => fetch(`${API}/word/random`)
 
 export const postWordRequest = (updatedWord: SendWord) =>
-    fetch(`${API}/game/requestWord`, {
+    fetch(`${API}/word/requestWord`, {
         method: 'POST',
         body: JSON.stringify(updatedWord),
         headers: {
